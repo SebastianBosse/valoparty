@@ -1,0 +1,5 @@
+:root {
+    --site-background: hsl(210, 40%, 10%);
+    --primary-font-color: hsl(38, 22%, 90%);
+    --primary-accent-color: hsl(355, 100%, 64%);
+}
