@@ -1,7 +1,7 @@
 <template>
 	<Teleport to="body">
 		<dialog ref="playerEditModal" class="modal">
-			<button @click="$emit('closed')">Close</button>
+			<button class="close_button" @click="$emit('closed')"><close /></button>
 			<slot/>
 		</dialog>
 	</Teleport>
@@ -9,18 +9,18 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch, watchEffect } from 'vue'
-import type { PropType } from 'vue';
+
+import close from '@/components/icons/close.vue';
 
 export default defineComponent({
+	components: {
+		close
+	},
 	props: {
 		open: {
 			type: Boolean,
 			required: true,
 		},
-		playerIndex: {
-			type: Number as PropType<Number | null> ,
-			required: true
-		}
 	},
 	emits: ["closed"],
 	setup(props) {
@@ -31,14 +31,12 @@ export default defineComponent({
 			console.log("Entered with: ", newValue)
 			if (newValue) {
 					if (playerEditModal.value) {
-						console.log("HALLO?!!?")
 						playerEditModal.value?.showModal();
 					}
 			}
 			if (!newValue) {
 				watchEffect(() => {
 					if (playerEditModal.value) {
-						console.log("HALLO?!!?")
 						playerEditModal.value?.close();
 					}
 				})
@@ -53,10 +51,24 @@ export default defineComponent({
 <style scoped>
 .modal {
 	margin: auto;
-	width: max(20vw, 400px);
+	width: max(50vw, 400px);
 	height: max(30vw, 400px);
 	background: var(--site-background);
 	border: 2px solid var(--primary-accent-color);
 	border-radius: 1rem;
+}
+
+.close_button {
+	background: none;
+	border: none;
+	position: absolute;
+  right: 1rem;
+	cursor: pointer;
+	scale: 1.5;
+	transition: rotate .3s ease-in-out;
+}
+
+.close_button:hover {
+	rotate: 180deg;
 }
 </style>
