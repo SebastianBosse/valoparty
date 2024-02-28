@@ -1,11 +1,11 @@
-import type { Agent } from "./agents"
+import type { Agent, Roles } from "./agents"
 
 import { AvailableAgents } from "./agents"
 
 export type Player = {
     name: String,
     Agent: Agent | null
-    notAvailable?: typeof AvailableAgents[number][]
+    notAvailable: Agent[]
 }
 
-export type Team = Player[]
+export type Team = {players: Player[], roles: Roles[]} | null

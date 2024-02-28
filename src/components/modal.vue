@@ -56,16 +56,32 @@ export default defineComponent({
 	background: var(--site-background);
 	border: 2px solid var(--primary-accent-color);
 	border-radius: 1rem;
+	flex-direction: column;
+	opacity: 0;
+	transform: scale(0);
+	visibility: hidden;
+	display: block;
+	transition: all .3s ease-in-out;
+}
+
+.modal[open] {
+	display: flex;
+	visibility: visible;
+	transform: scale(1);
+	opacity: 1;
 }
 
 .close_button {
 	background: none;
-	border: none;
-	position: absolute;
+  border: none;
+  position: sticky;
   right: 1rem;
-	cursor: pointer;
-	scale: 1.5;
-	transition: rotate .3s ease-in-out;
+  cursor: pointer;
+  scale: 1.5;
+  transition: rotate .3s ease-in-out;
+  top: 1rem;
+  width: fit-content;
+  align-self: end;
 }
 
 .close_button:hover {

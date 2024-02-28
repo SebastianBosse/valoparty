@@ -30,9 +30,10 @@ export type Roles = "Controller" | "Duelist" | "Initiator" | "Sentinel"
 export type Agent = {
     name: typeof AvailableAgents[number],
     role: Roles
+    cleanName?: string
 }
 
-const Agents: Agent[] = [
+export const Agents: Agent[] = [
     {
         name: "Brimstone",
         role: "Controller"
@@ -87,7 +88,8 @@ const Agents: Agent[] = [
     },
     {
         name: "KAY/O",
-        role: "Initiator"
+        role: "Initiator",
+        cleanName: "Kayo"
     },
     {
         name: "Chamber",
@@ -115,6 +117,10 @@ const Agents: Agent[] = [
     },
     {
         name: "Iso",
-        role: "Initiator"
+        role: "Duelist"
     },
+    {
+        name: "Breach",
+        role: "Initiator"
+    }
 ]

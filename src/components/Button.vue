@@ -1,5 +1,6 @@
 <template>
-    <RouterLink class="btn" :class="type" :to="target"><slot /></RouterLink>
+    <RouterLink v-if="mode == 'link'" class="btn" :class="type" :to="target"><slot /></RouterLink>
+    <button v-if="mode == 'button'" class="btn" :class="type" @click="$emit('click')" ><slot/></button>
 </template>
 
 <script lang="ts">
@@ -16,6 +17,11 @@ export default defineComponent({
         type: String,
         required: false,
         default: "primary"
+       },
+       mode: {
+        type: String,
+        required: false,
+        default: "link"
        }
     },
     setup () {
@@ -26,6 +32,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+button {
+    all: unset;
+    cursor: pointer;
+}
 .btn {
     padding: .5rem 1rem;
     border-radius: .4rem;

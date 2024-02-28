@@ -70,6 +70,20 @@ html {
 }
 
 
+
+.full-screen-height {
+  height: 100vh;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.container {
+  width: min(100vw, 1400px);
+  margin: auto;
+}
+
 /* Tablets */
 @media only screen and (min-width: 768px) {
   html {
@@ -98,7 +112,3 @@ html {
   }
 }
 
-
-.full-screen-height {
-  height: 100vh;
-}

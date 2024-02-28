@@ -1,45 +1,44 @@
 <template>
-	<div class="full-screen-height">
-		<modal @closed="open = false" :open="open" :player-index="selectedPlayer">
-			<playerModalDisplay :player-data="{}" />
+	<div class="full-screen-height vp-center">
+		<modal @closed="open = false" :open="open">
+			<playerModalDisplay />
 		</modal>
-		<h1>Create your Team(s)</h1>
+		<h1>Team Creation</h1>
 		<div class="card_wrapper">
 			<TeamCard @open-modal="open = true" :team="1"></TeamCard>
 			<TeamCard @open-modal="open = true" :team="2"></TeamCard>
 		</div>
+		<VPButton :target="'/play'">Lets GO!</VPButton>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import TeamCard from '@/components/TeamCard.vue';
 import modal from '@/components/modal.vue';
 import playerModalDisplay from '@/components/playerModalDisplay.vue';
+import VPButton from '@/components/Button.vue';
 
 import { useTeamsStore } from '@/stores/teams';
-import { storeToRefs } from 'pinia';
-import type { Player } from '@/types/types';
 
 export default defineComponent({
 	components: {
 		TeamCard,
 		modal,
-		playerModalDisplay
+		playerModalDisplay,
+		VPButton
 	},
 	setup() {
 		const teamStore = useTeamsStore();
-		const open = ref(false)
-		const { selectedPlayer } = storeToRefs(teamStore);
-
-		const playerData = ref<Player | null>(null)
-
-		watch(() => selectedPlayer.value, (newValue, oldValue) => {
-			// TODO Speicher Selected Player als key(team) => value(spielerIndex) ab um einfacher an den Richtigen spieler zu kommen
-			// playerData.value = teamStore.getPlayer()
+		teamStore.$subscribe((mutation, state) => {
+			localStorage.setItem('teams', JSON.stringify(state));
 		})
+		const open = ref(false)
 
-		return { selectedPlayer, open }
+		onMounted(() => {
+			teamStore.resetAgents()
+		})
+		return { open }
 	}
 })
 </script>
@@ -51,5 +50,13 @@ export default defineComponent({
 	justify-content: center;
 	align-items: start;
 	gap: 3rem;
+}
+
+.vp-center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
 }
 </style>

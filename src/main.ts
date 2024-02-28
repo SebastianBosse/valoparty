@@ -1,7 +1,7 @@
 import './assets/main.css'
 import './assets/variables.css'
 
-import { createApp } from 'vue'
+import { createApp, watch } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
@@ -11,5 +11,13 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+
+watch(createPinia().state, (state) => {
+  console.log(state);
+},
+{
+  deep: true
+}
+)
 
 app.mount('#app')
