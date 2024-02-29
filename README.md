@@ -1,3 +1,12 @@
+## What is Valoparty
+I started building this out of boredom. Valoparty creates random Agent selection for your team.
+For now it distributes at least on Agent of every Role. You are able to exclude Agents from a specific player if they may not have the agent available for play.
+
+## Roadmap
+- Random Map
+- More Rules for Agent Selection (All Duelist, All Random etc)
+- Better Experience when Agent Selection starts (Animations etc)
+
 # valoparty
 
 This template should help get you started developing with Vue 3 in Vite.
