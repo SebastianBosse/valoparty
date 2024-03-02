@@ -9,31 +9,7 @@ export const useTeamsStore = defineStore('teams', () => {
 	const team1 = ref<Team>(
 		{
 			players: [
-				{
-					name: "Sebastian",
-					Agent: null,
-					notAvailable: []
-				},
-				{
-					name: "Marcel",
-					Agent: null,
-					notAvailable: []
-				},
-				{
-					name: "Yannick",
-					Agent: null,
-					notAvailable: []
-				},
-				{
-					name: "Marco",
-					Agent: null,
-					notAvailable: []
-				},
-				{
-					name: "Janina",
-					Agent: null,
-					notAvailable: []
-				}
+
 			],
 			roles: [
 				"Controller",
@@ -44,33 +20,17 @@ export const useTeamsStore = defineStore('teams', () => {
 		}
 	);
 	const team2 = ref<Team>(
-		{
+		null
+	);
+
+
+	const selectedPlayer = ref<Player | null>(null)
+
+
+	function addTeam() {
+		team2.value = {
 			players: [
-				{
-					name: "Marwin",
-					Agent: null,
-					notAvailable: []
-				},
-				{
-					name: "Iza",
-					Agent: null,
-					notAvailable: []
-				},
-				{
-					name: "Marc",
-					Agent: null,
-					notAvailable: []
-				},
-				{
-					name: "Chris",
-					Agent: null,
-					notAvailable: []
-				},
-				{
-					name: "Stevor",
-					Agent: null,
-					notAvailable: []
-				}
+
 			],
 			roles: [
 				"Controller",
@@ -79,11 +39,7 @@ export const useTeamsStore = defineStore('teams', () => {
 				"Sentinel"
 			]
 		}
-	);
-
-	const selectedPlayer = ref<Player | null>(null)
-
-
+	}
 	function setSelectedPlayer(team: 1 | 2, playerIndex: number) {
 		switch (team) {
 			case 1:
@@ -134,8 +90,7 @@ export const useTeamsStore = defineStore('teams', () => {
 		}
 	}
 
-	function createReducedAgentPool(player: Player, team: Ref<Team>, lastIteration?: Boolean) {
-		console.log(lastIteration);
+	function createReducedAgentPool(player: Player, team: Ref<Team>, lastIteration?: Boolean, sameRole?: Boolean) {
 		const agentPool = [...Agents]
 		const reducedAgentPool = agentPool.filter((agent) => {
 			return !player.notAvailable.some((unavailAgent) => {
@@ -147,16 +102,39 @@ export const useTeamsStore = defineStore('teams', () => {
 			})
 		});
 
+		console.log("Hier noch?!?!?")
+		if (sameRole) {
+			console.log(reducedAgentPool);
+			
+			console.log("Entered Same ROle")
+			const onlySameRole = reducedAgentPool.filter((agent) => {
+				return agent.role == player.Agent?.role
+			})
+			console.log(onlySameRole);
+			return onlySameRole
+		}
+
 		if (!lastIteration) {
 			const withReducedRoles = reducedAgentPool.filter((agent) => {
-					return !team.value?.players.some((teamPlayer) => {
-						return teamPlayer.Agent?.role === agent.role;
-					});
+				return !team.value?.players.some((teamPlayer) => {
+					return teamPlayer.Agent?.role === agent.role;
+				});
 			})
 			return withReducedRoles
-		} 
+		}
+
+
 
 		return reducedAgentPool;
+	}
+
+	function distributeRandomAgent(playerIndex: number, team: Ref<Team>) {
+		const player = team.value?.players[playerIndex]
+		if (player) {
+			const reducedPool = createReducedAgentPool(player, team, true, true )
+			const agent = reducedPool[Math.floor(Math.random() * reducedPool.length)];
+			player.Agent = agent;
+		}
 	}
 
 	function distributeRandomAgents(team: Ref<Team>, ignoreTeamRules: Boolean = false) {
@@ -176,7 +154,7 @@ export const useTeamsStore = defineStore('teams', () => {
 				team1.value?.players.forEach((player) => player.Agent = null)
 				distributeRandomAgents(team1);
 				break;
-				case 2:
+			case 2:
 				team2.value?.players.forEach((player) => player.Agent = null)
 				distributeRandomAgents(team2);
 				break;
@@ -190,5 +168,5 @@ export const useTeamsStore = defineStore('teams', () => {
 		team1.value?.players.forEach((player) => player.Agent = null)
 		team2.value?.players.forEach((player) => player.Agent = null)
 	}
-	return { team1, team2, addToTeam, getTeam, selectedPlayer, getPlayer, setSelectedPlayer, deletePlayer, agentSelection, resetAgents }
+	return { team1, team2, addToTeam, getTeam, selectedPlayer, getPlayer, setSelectedPlayer, deletePlayer, agentSelection, resetAgents, addTeam, distributeRandomAgent }
 })

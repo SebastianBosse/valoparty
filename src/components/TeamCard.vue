@@ -5,7 +5,7 @@
 			<close @click="deletePlayer(index)" />
 		</div>
 		<div class="create_player_row" v-if="team && team?.players.length < 5">
-			<input type="text" placeholder="Name" v-model="nameToAdd">
+			<input type="text" placeholder="Name" v-model="nameToAdd" @keydown.enter="addToTeam(teamNumber)">
 			<addButton @click="addToTeam(teamNumber)" :disabled="nameToAdd == ''"></addButton>
 		</div>
 	</div>
@@ -94,5 +94,11 @@ export default defineComponent({
 .create_player_row {
 	display: flex;
 	gap: .5rem;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.create_player_row input {
+	width: 100%;
 }
 </style>

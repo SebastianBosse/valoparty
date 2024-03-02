@@ -6,14 +6,15 @@
 		<h1>Team Creation</h1>
 		<div class="card_wrapper">
 			<TeamCard @open-modal="open = true" :team="1"></TeamCard>
-			<TeamCard @open-modal="open = true" :team="2"></TeamCard>
+			<TeamCard v-if="team2 != null" @open-modal="open = true" :team="2"></TeamCard>
+			<VPButton v-else :mode="'button'" :target="''" @click="addTeam()">Add Team</VPButton>
 		</div>
 		<VPButton :target="'/play'">Lets GO!</VPButton>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref, onMounted, computed } from 'vue'
 import TeamCard from '@/components/TeamCard.vue';
 import modal from '@/components/modal.vue';
 import playerModalDisplay from '@/components/playerModalDisplay.vue';
@@ -30,15 +31,20 @@ export default defineComponent({
 	},
 	setup() {
 		const teamStore = useTeamsStore();
-		teamStore.$subscribe((mutation, state) => {
-			localStorage.setItem('teams', JSON.stringify(state));
-		})
+		// const team2 = teamStore.$state.team2
 		const open = ref(false)
 
+		const team2 = computed(() => {
+			return teamStore.$state.team2
+		})
 		onMounted(() => {
 			teamStore.resetAgents()
 		})
-		return { open }
+
+		function addTeam() {
+			teamStore.addTeam();
+		}
+		return { open, team2, addTeam }
 	}
 })
 </script>

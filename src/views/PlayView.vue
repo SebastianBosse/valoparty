@@ -30,7 +30,7 @@ export default defineComponent({
       teamStore.agentSelection(1);
       setTimeout(() => {
         teamStore.agentSelection(2);
-      }, 5000);
+      }, 1000);
     }
 
     return {
