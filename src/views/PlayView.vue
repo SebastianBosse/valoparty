@@ -6,7 +6,7 @@
     <div class="play_wrapper">
       <div class="play_card_container">
         <TeamCardPlay :team="1"></TeamCardPlay>
-        <TeamCardPlay :team="2"></TeamCardPlay>
+        <TeamCardPlay v-if="team2 != null" :team="2"></TeamCardPlay>
       </div>
       <VPButton mode="button" target="" @click="startAgentSelection()">Give us Agents!</VPButton>
     </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import TeamCardPlay from '@/components/TeamCardPlay.vue';
 import VPButton from '@/components/Button.vue'
 import { useTeamsStore } from '@/stores/teams';
@@ -26,6 +26,11 @@ export default defineComponent({
   },
   setup () {
     const teamStore = useTeamsStore()
+    const team2 = computed(() => {
+      console.log(teamStore.getTeam(2));
+      return teamStore.getTeam(2)?.value
+    })
+
     function startAgentSelection() {
       teamStore.agentSelection(1);
       setTimeout(() => {
@@ -34,7 +39,8 @@ export default defineComponent({
     }
 
     return {
-      startAgentSelection
+      startAgentSelection,
+      team2
     }
   }
 })
