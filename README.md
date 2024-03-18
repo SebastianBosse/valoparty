@@ -1,6 +1,6 @@
 ## What is Valoparty
 I started building this out of boredom. Valoparty creates random Agent selection for your team.
-For now it distributes at least on Agent of every Role. You are able to exclude Agents from a specific player if they may not have the agent available for play.
+For now it distributes at least one Agent of every Role. You are able to exclude Agents from a specific player if they may not have the agent available for play.
 
 ## Roadmap
 - Random Map
